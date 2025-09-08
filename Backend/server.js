@@ -8,9 +8,8 @@ import philosophyRoutes from "./routes/philosophyRoutes.js";
 import LoveRoutes from "./routes/LoveRoutes.js";
 import EmotionalRoutes from "./routes/EmotionalRoutes.js";
 import SelfRoutes from "./routes/SelfRoutes.js";
-
-// ✅ 1. IMPORT THE NEW USER ROUTES
-import userRoutes from "./routes/user.route.js"; // Ensure this file exists
+import studentBookRoutes from "./routes/book.routes.js"; // ✅ Changed variable name
+import userRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
@@ -26,8 +25,7 @@ app.use("/api/philosophy", philosophyRoutes);
 app.use("/api/love", LoveRoutes);
 app.use("/api/emotional", EmotionalRoutes);
 app.use("/api/self", SelfRoutes);
-
-// ✅ 2. USE THE NEW USER ROUTES
+app.use("/api/user", studentBookRoutes);
 app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT || 5000;

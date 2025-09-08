@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 // 🔹 Signup Controller
 export const signup = async (req, res) => {
@@ -25,8 +26,16 @@ export const signup = async (req, res) => {
 
     await newUser.save();
 
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: newUser._id, role: newUser.role },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '7d' }
+    );
+
     res.status(201).json({
       message: "User created successfully",
+      token,
       user: {
         _id: newUser._id,
         fullname: newUser.fullname,
@@ -60,8 +69,16 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '7d' }
+    );
+
     res.status(200).json({
       message: "Login successful",
+      token,
       user: {
         _id: user._id,
         fullname: user.fullname,

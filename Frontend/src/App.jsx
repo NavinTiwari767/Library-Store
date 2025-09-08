@@ -7,7 +7,7 @@ import Philosophy from "./components/CourseSection/Philosophy";
 import Love from "./components/CourseSection/Love";
 import Emotional from "./components/CourseSection/Emotional";
 import Self from "./components/CourseSection/Self";
-
+import StudentDashboard from "./components/StudentDashboard";
 // Import the new components
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -29,7 +29,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
+  <Route path="/student-dashboard" element={<StudentDashboard />} />
         {/* --- Protected Routes --- */}
         <Route
           path="/course"

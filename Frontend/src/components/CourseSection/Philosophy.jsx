@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import FOG from "vanta/dist/vanta.fog.min";
-import * as THREE from "three";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Philosophy() {
-  const vantaRef = useRef(null);
-  const [vantaEffect, setVantaEffect] = useState(null);
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,31 +11,6 @@ export default function Philosophy() {
     imageUrl: "",
     readUrl: "",
   });
-
-  // Vanta.js Fog Background
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(
-        FOG({
-          el: vantaRef.current,
-          THREE: THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          highlightColor: 0x9333ea, // purple highlight
-          midtoneColor: 0x4f46e5,   // indigo mid
-          lowlightColor: 0x1e1b4b,  // dark violet
-          baseColor: 0x0f172a,      // near-black
-          blurFactor: 0.7,
-        })
-      );
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy();
-    };
-  }, [vantaEffect]);
 
   // Fetch books
   useEffect(() => {
@@ -71,55 +42,78 @@ export default function Philosophy() {
   };
 
   return (
-    <div
-      ref={vantaRef}
-      className="relative min-h-screen text-white p-4 sm:p-6 overflow-hidden font-sans"
-    >
-      {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-50 -z-10"></div>
-
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-black text-gray-200 p-4 sm:p-6 overflow-hidden font-serif">
+      {/* Subtle Greek pattern background */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjxsaW5lIHgxPSIxNSIgeTE9IjE1IiB4Mj0iNDUiIHkyPSI0NSIvPjxsaW5lIHgxPSIxNSIgeTE9IjQ1IiB4Mj0iNDUiIHkyPSIxNSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjEwIiByPSIxIi8+PGNpcmNsZSBjeD0iMTAiIGN5PSI1MCIgcj0iMSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjEiLz48L2c+PC9zdmc+')] opacity-30"></div>
+      
       {/* Header */}
-      <div className="flex justify-between items-center relative z-10">
-        <h1 className="text-2xl sm:text-4xl font-bold drop-shadow-md flex items-center gap-2">
-          <span>📚</span>
-          <span className="bg-gradient-to-r from-purple-400 to-indigo-400 text-transparent bg-clip-text">
-            Philosophy
-          </span>
-        </h1>
-        <div className="flex items-center gap-3 sm:gap-4">
-          <button
-            className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-indigo-500 hover:to-purple-500 text-white text-xs sm:text-base px-3 py-1.5 sm:px-6 sm:py-2 rounded-lg sm:rounded-xl shadow-lg font-semibold transition-all"
-            onClick={() => setShowForm(true)}
-          >
-            Upload
-          </button>
-          <Link to="/" className="text-2xl sm:text-3xl text-gray-300 hover:text-white transition-colors" title="Go to Home">
-            🏠
-          </Link>
+      <nav className="bg-black bg-opacity-70 backdrop-blur-md text-white py-4 px-6 rounded-2xl shadow-xl mb-8 border border-indigo-800">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center">
+            <span className="text-indigo-400 mr-3">🧠</span>
+            <span className="bg-gradient-to-r from-indigo-400 to-purple-400 text-transparent bg-clip-text">
+              Philosophy Books
+            </span>
+          </h1>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <button
+              className="bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-600 text-white text-xs sm:text-base px-3 py-1.5 sm:px-6 sm:py-2 rounded-lg sm:rounded-xl shadow-md font-semibold transition-all flex items-center"
+              onClick={() => setShowForm(true)}
+            >
+              <span className="mr-2">+</span> Add Book
+            </button>
+            <Link to="/" className="text-xl sm:text-2xl text-indigo-300 hover:text-white transition-colors" title="Go to Home">
+              🏠
+            </Link>
+          </div>
         </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-indigo-200 mb-3">The Thinker's Library</h2>
+        <p className="text-lg text-purple-200 max-w-3xl mx-auto">Explore profound ideas and timeless wisdom from the greatest philosophical minds</p>
       </div>
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 p-4">
-          <div className="relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md border border-purple-300">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 p-4">
+          <div className="relative bg-gray-900 rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md border border-indigo-700">
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl font-bold"
+              className="absolute top-3 right-4 text-indigo-300 hover:text-white text-3xl font-bold"
             >
               &times;
             </button>
-            <h2 className="text-2xl font-bold mb-4 text-purple-700">Add New Book</h2>
+            <h2 className="text-2xl font-bold mb-4 text-indigo-300">Add Philosophical Work</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <input type="text" name="title" placeholder="Book Title" value={formData.title} onChange={handleChange} className="p-2 border border-purple-200 rounded-lg text-black" required />
-              <input type="text" name="author" placeholder="Author" value={formData.author} onChange={handleChange} className="p-2 border border-purple-200 rounded-lg text-black" required />
-              <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} className="p-2 border border-purple-200 rounded-lg text-black" required />
-              <input type="text" name="imageUrl" placeholder="Image URL" value={formData.imageUrl} onChange={handleChange} className="p-2 border border-purple-200 rounded-lg text-black" />
-              <input type="text" name="readUrl" placeholder="Read Now URL" value={formData.readUrl} onChange={handleChange} className="p-2 border border-purple-200 rounded-lg text-black" />
+              <input
+                type="text" name="title" placeholder="Book Title" value={formData.title} onChange={handleChange}
+                className="p-2 border border-indigo-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white bg-gray-800 placeholder-indigo-200" required
+              />
+              <input
+                type="text" name="author" placeholder="Philosopher" value={formData.author} onChange={handleChange}
+                className="p-2 border border-indigo-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white bg-gray-800 placeholder-indigo-200" required
+              />
+              <textarea
+                name="description" placeholder="Philosophical Concepts" value={formData.description} onChange={handleChange}
+                className="p-2 border border-indigo-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white bg-gray-800 placeholder-indigo-200" required
+              />
+              <input
+                type="text" name="imageUrl" placeholder="Image URL" value={formData.imageUrl} onChange={handleChange}
+                className="p-2 border border-indigo-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white bg-gray-800 placeholder-indigo-200"
+              />
+              <input
+                type="text" name="readUrl" placeholder="Read Now URL" value={formData.readUrl} onChange={handleChange}
+                className="p-2 border border-indigo-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white bg-gray-800 placeholder-indigo-200"
+              />
               <div className="flex justify-end mt-2">
-                <button type="submit" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold shadow hover:from-indigo-500 hover:to-purple-500 transition-all">
-                  Upload
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-semibold shadow-md hover:from-purple-700 hover:to-indigo-600 transition-all"
+                >
+                  Add to Library
                 </button>
               </div>
             </form>
@@ -128,25 +122,86 @@ export default function Philosophy() {
       )}
 
       {/* Book Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-12 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
         {books.map((book) => (
-          <div key={book._id} className="bg-zinc-800 text-white rounded-2xl shadow-xl overflow-hidden hover:scale-[1.03] transition-transform border border-purple-500/20 flex flex-col">
-            {book.imageUrl && <img src={book.imageUrl} alt={book.title} className="h-48 w-full object-cover" />}
+          <div
+            key={book._id}
+            className="bg-gray-900 bg-opacity-70 backdrop-blur-md text-white rounded-2xl shadow-xl overflow-hidden hover:scale-[1.02] transition-transform border border-indigo-800 flex flex-col relative"
+          >
+            <div className="absolute top-4 right-4 text-xl text-indigo-300">📜</div>
+            
+            {book.imageUrl && (
+              <img
+                src={book.imageUrl}
+                alt={book.title}
+                className="h-48 w-full object-cover"
+              />
+            )}
             <div className="p-5 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl lg:text-2xl font-extrabold text-purple-300">{book.title}</h3>
-                <p className="text-sm text-purple-200 mb-2">By {book.author}</p>
-                <p className="text-sm text-slate-200">{book.description}</p>
+                <h3 className="text-xl lg:text-2xl font-bold text-indigo-200">
+                  {book.title}
+                </h3>
+                <p className="text-sm text-purple-300 mb-2">By {book.author}</p>
+                <p className="text-sm text-gray-300 mt-3">{book.description}</p>
               </div>
               {book.readUrl && (
-                <a href={book.readUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-center py-2 px-4 rounded-xl font-semibold shadow-lg hover:from-indigo-600 hover:to-purple-600 transition-all">
-                  📖 Read Now
+                <a
+                  href={book.readUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-600 text-white text-center py-2 px-4 rounded-xl font-semibold shadow-md transition-all"
+                >
+                  📖 Study Text
                 </a>
               )}
             </div>
           </div>
         ))}
       </div>
+
+      {/* Decorative Elements */}
+      <div className="hidden lg:block">
+        <div className="absolute bottom-10 left-10 text-5xl text-indigo-500 opacity-60 floating-element">📚</div>
+        <div className="absolute top-40 right-16 text-4xl text-purple-400 opacity-70 floating-element" style={{animationDelay: '1s'}}>🧠</div>
+        {/* <div className="absolute bottom-1/3 right-1/4 text-5xl text-indigo-400 opacity-60 page-turn-element">📖</div> */}
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-black bg-opacity-70 text-indigo-200 py-6 mt-12 rounded-2xl shadow-xl border border-indigo-800">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-lg">"The unexamined life is not worth living" - Socrates</p>
+          <div className="flex justify-center space-x-6 mt-4 text-2xl">
+            <span className="text-indigo-400">🧠</span>
+            <span className="text-purple-400">📚</span>
+            <span className="text-blue-400">💭</span>
+          </div>
+          <p className="mt-6 text-sm opacity-75">© 2023 Philosophy Library - Repository of Wisdom</p>
+        </div>
+      </footer>
+
+      {/* Add the CSS for animations */}
+      <style>
+        {`
+          @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+          
+          @keyframes pageTurn {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(15deg); }
+          }
+          
+          .floating-element {
+            animation: floating 8s infinite ease-in-out;
+          }
+          
+          .page-turn-element {
+            animation: pageTurn 15s infinite ease-in-out;
+          }
+        `}
+      </style>
     </div>
   );
 }

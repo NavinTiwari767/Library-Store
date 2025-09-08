@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import VANTA from "vanta/dist/vanta.net.min";
-import * as THREE from "three";
-import { Link } from "react-router-dom"; // 👈 Add this for Home button
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Love() {
-  const vantaRef = useRef(null);
-  const [vantaEffect, setVantaEffect] = useState(null);
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,36 +12,11 @@ export default function Love() {
     readUrl: "",
   });
 
-  // 🎨 Vanta background
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(
-        VANTA({
-          el: vantaRef.current,
-          THREE: THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          scale: 1.0,
-          scaleMobile: 1.0,
-          color: 0x9333ea,
-          backgroundColor: 0x0f172a,
-        })
-      );
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy();
-    };
-  }, [vantaEffect]);
-
   // 📚 Fetch books
   useEffect(() => {
     fetch("http://localhost:5000/api/Love")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API Response (Love):", data);
         if (Array.isArray(data)) {
           setBooks(data);
         } else {
@@ -73,21 +44,18 @@ export default function Love() {
       return;
     }
     const newBook = await res.json();
-    setBooks([newBook, ...books]); // 👈 Naya book add karo
+    setBooks([newBook, ...books]);
     setShowForm(false);
     setFormData({ title: "", author: "", description: "", imageUrl: "", readUrl: "" });
   };
 
   return (
-    <div
-      ref={vantaRef}
-      className="relative min-h-screen bg-zinc-900 text-white p-6 overflow-hidden font-sans"
-    >
+    <div className="relative min-h-screen bg-gradient-to-br from-[#2c0f0f] via-[#431515] to-[#2c0f0f] text-white p-6 font-sans">
       {/* Header */}
       <div className="flex justify-between items-center relative z-10">
-        <h1 className="text-4xl sm:text-5xl font-bold drop-shadow-md flex items-center gap-3">
+        <h1 className="text-5xl sm:text-6xl font-extrabold drop-shadow-lg flex items-center gap-3">
           <span>❤️</span>
-          <span className="bg-gradient-to-r from-pink-400 to-red-400 text-transparent bg-clip-text">
+          <span className="bg-gradient-to-r from-yellow-300 via-rose-300 to-amber-200 text-transparent bg-clip-text">
             Love
           </span>
         </h1>
@@ -95,10 +63,10 @@ export default function Love() {
         <div className="flex items-center gap-4">
           {/* Upload Button */}
           <button
-            className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-red-500 hover:to-pink-500 text-white px-6 py-2 rounded-xl shadow-lg font-semibold transition-all duration-200"
+            className="bg-gradient-to-r from-amber-400 via-rose-400 to-pink-500 hover:from-pink-500 hover:to-amber-400 text-white px-6 py-2 rounded-xl shadow-lg font-semibold transition-all duration-300 hover:shadow-amber-400/50"
             onClick={() => setShowForm(true)}
           >
-            Upload Book
+            ✨ Upload Book
           </button>
 
           {/* 🏠 Home Button */}
@@ -114,9 +82,9 @@ export default function Love() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 w-96 border border-pink-300">
-            <h2 className="text-2xl font-bold mb-4 text-pink-700">Add New Love Book</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 w-96 border border-amber-400">
+            <h2 className="text-2xl font-bold mb-4 text-rose-700">Add New Love Book</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <input
                 type="text"
@@ -124,7 +92,7 @@ export default function Love() {
                 placeholder="Book Title"
                 value={formData.title}
                 onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black placeholder-gray-500"
+                className="p-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 text-black"
                 required
               />
               <input
@@ -133,7 +101,7 @@ export default function Love() {
                 placeholder="Author"
                 value={formData.author}
                 onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black placeholder-gray-500"
+                className="p-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 text-black"
                 required
               />
               <textarea
@@ -141,7 +109,7 @@ export default function Love() {
                 placeholder="Description"
                 value={formData.description}
                 onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black placeholder-gray-500"
+                className="p-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 text-black"
                 required
               />
               <input
@@ -150,7 +118,7 @@ export default function Love() {
                 placeholder="Image URL"
                 value={formData.imageUrl}
                 onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black placeholder-gray-500"
+                className="p-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 text-black"
               />
               <input
                 type="text"
@@ -158,7 +126,7 @@ export default function Love() {
                 placeholder="Read Now URL (PDF link)"
                 value={formData.readUrl}
                 onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black placeholder-gray-500"
+                className="p-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 text-black"
               />
               <div className="flex justify-between mt-2">
                 <button
@@ -170,7 +138,7 @@ export default function Love() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold shadow hover:from-red-500 hover:to-pink-500 transition-all"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-amber-400 via-rose-400 to-pink-500 text-white font-semibold shadow hover:from-pink-500 hover:to-amber-400 transition-all"
                 >
                   Upload
                 </button>
@@ -185,29 +153,29 @@ export default function Love() {
         {books.map((book) => (
           <div
             key={book._id}
-            className="bg-zinc-800 text-white rounded-2xl shadow-xl overflow-hidden hover:scale-[1.03] transition-transform border border-pink-500/20 flex flex-col"
+            className="bg-white/10 backdrop-blur-md text-white rounded-2xl shadow-2xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 border border-amber-400/40 flex flex-col"
           >
             {book.imageUrl && (
               <img
                 src={book.imageUrl}
                 alt={book.title}
-                className="h-48 w-full object-cover"
+                className="h-60 w-full object-cover rounded-t-2xl shadow-md"
               />
             )}
-            <div className="p-5 flex-1 flex flex-col justify-between">
+            <div className="p-6 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-2xl font-extrabold text-pink-300">
+                <h3 className="text-2xl font-extrabold bg-gradient-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent drop-shadow">
                   {book.title}
                 </h3>
-                <p className="text-sm text-pink-200 mb-2">By {book.author}</p>
-                <p className="text-sm text-slate-200">{book.description}</p>
+                <p className="text-sm text-rose-200 mb-2">By {book.author}</p>
+                <p className="text-sm text-slate-100">{book.description}</p>
               </div>
               {book.readUrl && (
                 <a
                   href={book.readUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-block bg-gradient-to-r from-pink-500 to-red-600 hover:from-red-600 hover:to-pink-600 text-white text-center py-2 px-4 rounded-xl font-semibold shadow-lg transition-all"
+                  className="mt-4 inline-block bg-gradient-to-r from-amber-400 via-rose-400 to-pink-500 hover:from-pink-500 hover:to-amber-400 text-white text-center py-2 px-5 rounded-xl font-semibold shadow-lg transition-all"
                 >
                   📖 Read Now
                 </a>

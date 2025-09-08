@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import VANTA from "vanta/dist/vanta.net.min";
-import * as THREE from "three";
-import { Link } from "react-router-dom"; // ✅ IMPORT LINK
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Love() {
-  const vantaRef = useRef(null);
-  const [vantaEffect, setVantaEffect] = useState(null);
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,30 +11,6 @@ export default function Love() {
     imageUrl: "",
     readUrl: "",
   });
-
-  // Vanta.js background
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(
-        VANTA({
-          el: vantaRef.current,
-          THREE: THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          scale: 1.0,
-          scaleMobile: 1.0,
-          color: 0xff004c, // Changed color for a love theme
-          backgroundColor: 0x1a000a, // Changed color for a love theme
-        })
-      );
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy();
-    };
-  }, [vantaEffect]);
 
   // Fetch books
   useEffect(() => {
@@ -72,71 +44,76 @@ export default function Love() {
   };
 
   return (
-    <div
-      ref={vantaRef}
-      className="relative min-h-screen bg-zinc-900 text-white p-4 sm:p-6 overflow-hidden font-sans"
-    >
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black text-gray-200 p-4 sm:p-6 overflow-hidden font-sans">
+      {/* Subtle star effect */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIgc3Ryb2tlLXdpZHRoPSIxIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIi8+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMC41Ii8+PGNpcmNsZSBjeD0iNTAiIGN5PSI0MCIgcj0iMC43Ii8+PGNpcmNsZSBjeD0iMjUiIGN5PSI0NSIgcj0iMC4zIi8+PGNpcmNsZSBjeD0iNDUiIGN5PSIyMCIgcj0iMC42Ii8+PC9nPjwvc3ZnPg==')] opacity-40"></div>
+      
       {/* Header */}
-      {/* ✅ UPDATED HEADER FOR RESPONSIVENESS */}
-      <div className="flex justify-between items-center relative z-10">
-        <h1 className="text-2xl sm:text-4xl font-bold drop-shadow-md flex items-center gap-2">
-          <span>❤️</span>
-          <span className="bg-gradient-to-r from-red-400 to-pink-400 text-transparent bg-clip-text">
-            Love Books
-          </span>
-        </h1>
-        <div className="flex items-center gap-3 sm:gap-4">
-          <button
-            className="bg-gradient-to-r from-red-500 to-pink-500 hover:from-pink-500 hover:to-red-500 text-white text-xs sm:text-base px-3 py-1.5 sm:px-6 sm:py-2 rounded-lg sm:rounded-xl shadow-lg font-semibold transition-all"
-            onClick={() => setShowForm(true)}
-          >
-            Upload
-          </button>
-          <Link to="/" className="text-2xl sm:text-3xl text-gray-300 hover:text-white transition-colors" title="Go to Home">
-            🏠
-          </Link>
+      <nav className="bg-black bg-opacity-70 backdrop-blur-md text-white py-4 px-6 rounded-2xl shadow-xl mb-8 border border-blue-800">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center">
+            <span className="text-rose-400 mr-3">❤️</span>
+            <span className="bg-gradient-to-r from-rose-400 to-blue-400 text-transparent bg-clip-text">
+              Love Books
+            </span>
+          </h1>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <button
+              className="bg-gradient-to-r from-rose-600 to-blue-700 hover:from-blue-700 hover:to-rose-600 text-white text-xs sm:text-base px-3 py-1.5 sm:px-6 sm:py-2 rounded-lg sm:rounded-xl shadow-md font-semibold transition-all flex items-center"
+              onClick={() => setShowForm(true)}
+            >
+              <span className="mr-2">+</span> Upload
+            </button>
+            <Link to="/" className="text-xl sm:text-2xl text-blue-300 hover:text-white transition-colors" title="Go to Home">
+              🏠
+            </Link>
+          </div>
         </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-rose-200 mb-3">Cozy Reading Corner</h2>
+        <p className="text-lg text-blue-200 max-w-3xl mx-auto">Curate your collection of romantic stories and lose yourself in tales of love and passion</p>
       </div>
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 p-4">
-          {/* ✅ UPDATED MODAL FOR RESPONSIVENESS */}
-          <div className="relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md border border-pink-300">
-            {/* ✅ ADDED CLOSE 'X' BUTTON */}
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 p-4">
+          <div className="relative bg-gray-900 rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-md border border-blue-700">
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl font-bold"
+              className="absolute top-3 right-4 text-blue-300 hover:text-white text-3xl font-bold"
             >
               &times;
             </button>
-            <h2 className="text-2xl font-bold mb-4 text-pink-700">Add New Book</h2>
+            <h2 className="text-2xl font-bold mb-4 text-rose-300">Add New Book</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <input
                 type="text" name="title" placeholder="Book Title" value={formData.title} onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black" required
+                className="p-2 border border-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white bg-gray-800 placeholder-blue-200" required
               />
               <input
                 type="text" name="author" placeholder="Author" value={formData.author} onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black" required
+                className="p-2 border border-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white bg-gray-800 placeholder-blue-200" required
               />
               <textarea
                 name="description" placeholder="Description" value={formData.description} onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black" required
+                className="p-2 border border-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white bg-gray-800 placeholder-blue-200" required
               />
               <input
                 type="text" name="imageUrl" placeholder="Image URL" value={formData.imageUrl} onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black"
+                className="p-2 border border-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white bg-gray-800 placeholder-blue-200"
               />
               <input
                 type="text" name="readUrl" placeholder="Read Now URL (PDF link)" value={formData.readUrl} onChange={handleChange}
-                className="p-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 text-black"
+                className="p-2 border border-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white bg-gray-800 placeholder-blue-200"
               />
               <div className="flex justify-end mt-2">
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow hover:from-pink-500 hover:to-red-500 transition-all"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-rose-600 to-blue-700 text-white font-semibold shadow-md hover:from-blue-700 hover:to-rose-600 transition-all"
                 >
                   Upload
                 </button>
@@ -147,12 +124,14 @@ export default function Love() {
       )}
 
       {/* Book Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-12 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
         {books.map((book) => (
           <div
             key={book._id}
-            className="bg-zinc-800 bg-opacity-50 backdrop-blur-sm text-white rounded-2xl shadow-xl overflow-hidden hover:scale-[1.03] transition-transform border border-pink-500/20 flex flex-col"
+            className="bg-gray-900 bg-opacity-70 backdrop-blur-md text-white rounded-2xl shadow-xl overflow-hidden hover:scale-[1.02] transition-transform border border-blue-800 flex flex-col relative"
           >
+            <div className="absolute top-4 right-4 text-xl text-blue-300">✨</div>
+            
             {book.imageUrl && (
               <img
                 src={book.imageUrl}
@@ -162,18 +141,18 @@ export default function Love() {
             )}
             <div className="p-5 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl lg:text-2xl font-extrabold text-pink-300">
+                <h3 className="text-xl lg:text-2xl font-bold text-rose-200">
                   {book.title}
                 </h3>
-                <p className="text-sm text-pink-200 mb-2">By {book.author}</p>
-                <p className="text-sm text-slate-200">{book.description}</p>
+                <p className="text-sm text-blue-300 mb-2">By {book.author}</p>
+                <p className="text-sm text-gray-300 mt-3">{book.description}</p>
               </div>
               {book.readUrl && (
                 <a
                   href={book.readUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-block bg-gradient-to-r from-red-500 to-pink-600 hover:from-pink-600 hover:to-red-600 text-white text-center py-2 px-4 rounded-xl font-semibold shadow-lg transition-all"
+                  className="mt-4 inline-block bg-gradient-to-r from-rose-600 to-blue-700 hover:from-blue-700 hover:to-rose-600 text-white text-center py-2 px-4 rounded-xl font-semibold shadow-md transition-all"
                 >
                   📖 Read Now
                 </a>
@@ -182,6 +161,49 @@ export default function Love() {
           </div>
         ))}
       </div>
+
+      {/* Decorative Elements */}
+      <div className="hidden lg:block">
+        <div className="absolute bottom-10 left-10 text-5xl text-blue-500 opacity-60 floating-element">📚</div>
+        <div className="absolute top-40 right-16 text-4xl text-rose-400 opacity-70 floating-element" style={{animationDelay: '1s'}}>❤️</div>
+      
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-black bg-opacity-70 text-blue-200 py-6 mt-12 rounded-2xl shadow-xl border border-blue-800">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-lg">Get lost in the pages of love</p>
+          <div className="flex justify-center space-x-6 mt-4 text-2xl">
+            <span className="text-rose-400">❤️</span>
+            <span className="text-blue-400">📚</span>
+            <span className="text-purple-400">✨</span>
+          </div>
+          <p className="mt-6 text-sm opacity-75">© 2023 Love Books - Your cozy reading corner</p>
+        </div>
+      </footer>
+
+      {/* Add the CSS for animations */}
+      <style>
+        {`
+          @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+          
+          @keyframes pageTurn {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(15deg); }
+          }
+          
+          .floating-element {
+            animation: floating 8s infinite ease-in-out;
+          }
+          
+          .page-turn-element {
+            animation: pageTurn 15s infinite ease-in-out;
+          }
+        `}
+      </style>
     </div>
   );
 }

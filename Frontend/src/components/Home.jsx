@@ -38,13 +38,22 @@ export default function Home() {
       className="h-screen w-full flex items-center justify-center text-white"
     >
       <div className="relative z-10 text-center px-4">
-      
-        {/* ✅ THIS LINE IS UPDATED FOR BETTER ALIGNMENT */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
-          🌍 Welcome To BookStore
-        </h1>
+        
+        {/* 🌍 Welcome To */}
+        <div>
+  {/* First heading: Shift slightly left */}
+  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold drop-shadow-lg text-center -translate-x-7 sm:-translate-x-4">
+    🌍 Welcome To
+  </h1>
 
-        <p className="mt-4 text-lg md:text-xl">Explore books around the globe</p>
+  {/* Second heading: Shift slightly right */}
+  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold drop-shadow-lg text-center translate-x- 1 sm:translate-x-8">
+    BookStore
+  </h1>
+</div>
+        <p className="mt-4 text-lg md:text-xl">
+          Explore books around the globe
+        </p>
 
         <button
           onClick={() => navigate("/login")}
